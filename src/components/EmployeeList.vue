@@ -53,6 +53,9 @@ export default {
         color: #3db5d7;
         font-size: 35px;
         padding: 5px 0;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
         cursor: pointer;
         &:nth-child(2) {
           font-size: 18px;

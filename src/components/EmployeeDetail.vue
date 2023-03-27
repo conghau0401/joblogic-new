@@ -1,14 +1,21 @@
 <script>
+import { ref } from 'vue'
 import { useStore } from "vuex";
 import { computed } from "vue";
 export default {
   setup() {
     const store = useStore();
     const employeeslist = computed(() => store.state.employees);
+    const popularity = ref(employeeslist.value[0].popularity);
+    const updatePopularity = function() {
+      store.commit("updateEmployee", popularity.value)
+    }
     return {
       employeeslist,
-    };
-  },
+      updatePopularity,
+      popularity
+    }
+  }
 };
 </script>
 
@@ -27,6 +34,7 @@ export default {
         <div class="popularity">
           <p class="title">Popularity</p>
           <p class="ruler"></p>
+          <input type="range" id="popularity" name="popularity" v-model="popularity" min="1" max="15" @change="updatePopularity">
         </div>
         <div class="content">
           <div class="colleagues">
@@ -73,7 +81,7 @@ export default {
         color: #fff;
         font-size: 30px;
         margin: 0;
-        margin-bottom: 35px;
+        margin-bottom: 20px;
       }
       .popularity {
         color: #fff;
@@ -83,32 +91,22 @@ export default {
         .title {
           width: 10%;
         }
-        .ruler {
+        input#popularity {
           height: 5px;
           background: #1a1d24;
           width: 90%;
           position: relative;
           margin: 0;
-          &:after {
-            position: absolute;
-            content: "";
-            top: 50%;
-            transform: translateY(-50%);
-            left: 100px;
-            background: #fff;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            cursor: pointer;
-          }
+          cursor: pointer;
         }
       }
       .content {
         background: #1a1d24;
         padding: 30px;
         color: #fff;
-        margin-top: 65px;
+        margin-top: 50px;
         line-height: 25px;
+        border-radius: 5px;
         .colleagues {
           font-size: 20px;
           font-weight: bold;

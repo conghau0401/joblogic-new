@@ -33,4 +33,7 @@
 body {
   margin: 0;
 }
+img {
+  width: 100%;
+}
 </style>

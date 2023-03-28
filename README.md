@@ -1,6 +1,15 @@
-# joblogic
+# Joblogic-interview
 
 ## Project setup
+
+```
+nodenv versions: v16.14.2
+```
+
+```
+npm versions: 8.5.5
+```
+
 ```
 npm install
 ```
@@ -14,11 +23,3 @@ npm run serve
 ```
 npm run build
 ```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

@@ -1,21 +1,25 @@
 <script>
-import { ref } from 'vue'
 import { useStore } from "vuex";
 import { computed } from "vue";
 export default {
-  setup() {
+  props: {
+    employee: Object,
+  },
+  setup(props) {
     const store = useStore();
-    const employeeslist = computed(() => store.state.employees);
-    const popularity = ref(employeeslist.value[0].popularity);
-    const updatePopularity = function() {
-      store.commit("updateEmployee", popularity.value)
-    }
+    const employeeRes = computed(() => props.employee);
+    const updatePopularity = function () {
+      const data = {
+        name: employeeRes.value.name,
+        popularity: employeeRes.value.popularity,
+      };
+      store.commit("updateEmployee", data);
+    };
     return {
-      employeeslist,
+      employeeRes,
       updatePopularity,
-      popularity
-    }
-  }
+    };
+  },
 };
 </script>
 
@@ -24,25 +28,33 @@ export default {
     <div class="employee">
       <div class="img-employee">
         <p>
-          <img src="@/assets/_images/profile/VitoCorleone.jpg" alt="image" />
+          <img :src="'/_images/profile/' + employeeRes.image" alt="image" />
         </p>
       </div>
       <div class="wrapper-info">
         <h3 class="name-employee">
-          {{ employeeslist[0].name }}
+          {{ employeeRes.name }}
         </h3>
         <div class="popularity">
           <p class="title">Popularity</p>
           <p class="ruler"></p>
-          <input type="range" id="popularity" name="popularity" v-model="popularity" min="1" max="15" @change="updatePopularity">
+          <input
+            type="range"
+            id="popularity"
+            name="popularity"
+            v-model="employeeRes.popularity"
+            min="1"
+            max="15"
+            @change="updatePopularity"
+          />
         </div>
         <div class="content">
           <div class="colleagues">
-            <span v-for="(item, key) in employeeslist[0].colleagues" :key="key">
+            <span v-for="(item, key) in employeeRes.colleagues" :key="key">
               {{ item }}
             </span>
           </div>
-          {{ employeeslist[0].biography }}
+          {{ employeeRes.biography }}
         </div>
       </div>
     </div>
@@ -80,8 +92,7 @@ export default {
       .name-employee {
         color: #fff;
         font-size: 30px;
-        margin: 0;
-        margin-bottom: 20px;
+        margin: 0 0 20px;
       }
       .popularity {
         color: #fff;
@@ -91,13 +102,33 @@ export default {
         .title {
           width: 10%;
         }
-        input#popularity {
-          height: 5px;
-          background: #1a1d24;
+        input[type="range"] {
+          -webkit-appearance: none;
           width: 90%;
-          position: relative;
-          margin: 0;
+          height: 5px;
+          background: rgba(255, 255, 255, 0.6);
+          border-radius: 5px;
+          background: #1a1d24;
           cursor: pointer;
+          margin: 0;
+          position: relative;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          height: 20px;
+          width: 20px;
+          border-radius: 50%;
+          background: #fff;
+          cursor: ew-resize;
+          box-shadow: 0 0 2px 0 #555;
+        }
+
+        input[type=range]::-webkit-slider-runnable-track  {
+          -webkit-appearance: none;
+          box-shadow: none;
+          border: none;
+          background: transparent;
         }
       }
       .content {
@@ -113,6 +144,45 @@ export default {
           margin-bottom: 10px;
           span {
             margin-right: 20px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  #detail {
+    padding-left: 0;
+    position: relative;
+    top: auto;
+    left: auto;
+    height: auto;
+    padding: 5vw;
+    .employee {
+      margin-top: 0;
+      display: block;
+      .img-employee {
+        width: 30%;
+        margin: 0 auto;
+      }
+      .wrapper-info {
+        width: 100%;
+        .name-employee {
+          margin: 3vw 0;
+          text-align: center;
+        }
+        .content {
+          margin-top: 7vw;
+          padding: 6vw;
+        }
+        .popularity {
+          display: block;
+          input#popularity {
+            width: 100%;
+          }
+          .title {
+            width: 100%;
           }
         }
       }

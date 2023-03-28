@@ -24,4 +24,16 @@
       margin-top: -30vh;
     }
   }
+  @media (max-width: 991px) {
+    header {
+      height: auto;
+      overflow: hidden;
+      position: relative;
+      z-index: 2;
+      img {
+        height: auto;
+        margin-top: 0;
+      }
+    }
+  }
 </style>

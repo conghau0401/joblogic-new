@@ -7,11 +7,11 @@
         HeaderComponent
       },
       setup() {
-            const store = useStore();
-            onMounted(() => {
-                store.dispatch('getEmployees');
-            })
-        }
+        const store = useStore();
+        onMounted(() => {
+          store.dispatch('getEmployees');
+        })
+      }
     }
 </script>
 

@@ -1,25 +1,27 @@
-<script>
-import { useStore } from "vuex";
-import { computed } from "vue";
-export default {
-  setup() {
-    const store = useStore();
-    const employeeslist = computed(() => store.state.employees);
-    return {
-      employeeslist,
-    };
-  },
-};
+<script setup>
+  import { defineEmits, defineProps } from "vue";
+  const props = defineProps(
+    {
+      employees: Object,
+      index: Number
+    }
+  );
+  const emit = defineEmits(['chooseNavigation']);
 </script>
 
 <template>
-  <section id="left">
+  <section id="left">{{props.index}}
     <div class="logo">
       <p><img src="@/assets/_logo/the-godfather.svg" alt="Logo" /></p>
     </div>
     <nav>
       <ul>
-        <li v-for="(item, key) in employeeslist" :key="key" @click="details">
+        <li
+          v-for="(item, key) in props.employees"
+          :key="key"
+          :style="{ fontSize: +item.popularity * 40 + '%' }"
+          @click="emit('chooseNavigation', key)"
+          :class="{ active: key == props.index }">
           {{ item.name }}
         </li>
       </ul>
@@ -51,23 +53,38 @@ export default {
         text-align: center;
         list-style: none;
         color: #3db5d7;
-        font-size: 35px;
-        padding: 5px 0;
+        padding: 10px 0;
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
         cursor: pointer;
-        &:nth-child(2) {
-          font-size: 18px;
-        }
-        &:nth-child(3) {
-          color: #fff;
-          font-size: 18px;
-        }
-        &:nth-child(4) {
-          font-size: 22px;
+        &.active {
+          background: rgba(255, 255, 255, 0.2);
         }
       }
+    }
+  }
+}
+@media (max-width: 991px) {
+  #left {
+    position: relative;
+    width: 100%;
+    height: auto;
+    top: auto;
+    background: #000;
+    .logo {
+      width: 12%;
+      margin: 0 auto;
+      height: auto;
+      display: inherit;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+    }
+    nav {
+      margin: 0;
+      padding: 3vw 0;
     }
   }
 }
